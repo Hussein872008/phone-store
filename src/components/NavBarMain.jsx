@@ -6,11 +6,10 @@ import { useAuth } from '../assets/context/AuthContext';
 function NavbarMain() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [IsMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUser, logout } = useAuth();
-
+  const { currentUser, logout, cartItems } = useAuth();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
@@ -45,6 +44,7 @@ function NavbarMain() {
     logout();
     setIsMenuOpen(false);
   };
+
 
   return (
     <nav className="bg-[#80CBC4] py-3 px-4 lg:px-[50px]">
@@ -104,9 +104,11 @@ function NavbarMain() {
               aria-label="Shopping Cart"
             >
               <FiShoppingCart size={30} />
-              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
+              {cartItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItems}
+                </span>
+              )}
             </Link>
 
             {currentUser ? (
@@ -186,7 +188,7 @@ function NavbarMain() {
         >
           <FiShoppingCart size={30} />
           <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-            0
+            {cartItems} {/* عرض عدد العناصر في السلة */}
           </span>
         </Link>
       </div>
